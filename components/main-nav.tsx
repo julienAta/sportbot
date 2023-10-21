@@ -14,13 +14,8 @@ export function MainNav({
   const routes = [
     {
       href: `/`,
-      label: "Home",
+      label: "SportBot",
       active: pathname === `/`,
-    },
-    {
-      href: `/admin`,
-      label: "Admin",
-      active: pathname === `/admin`,
     },
   ];
   return (

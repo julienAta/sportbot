@@ -1,18 +1,31 @@
+import OpenAIApi from "openai";
 import { NextApiRequest, NextApiResponse } from "next";
 
-function generateAnswer(sport: string): string {
-  const randomFactor = Math.random() * 20;
-  return `${sport} ${randomFactor.toFixed(2)}`;
-}
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY; // Replace with your OpenAI API key
+
+const openai = new OpenAIApi({ apiKey: OPENAI_API_KEY });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const { sport } = req.query;
+  const { sport, question } = req.query; // Extract question from query params
 
-  if (typeof sport !== "string") {
-    res.status(400).send("Invalid sport parameter");
+  const messageContent = `Question about ${sport}: ${question}`;
+
+  if (typeof sport !== "string" || typeof question !== "string") {
+    res.status(400).send("Invalid parameters");
     return;
   }
 
-  const answer = generateAnswer(sport);
-  res.status(200).json({ answer });
+  try {
+    const gptResponse = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+
+      messages: [{ role: "user", content: messageContent }],
+      max_tokens: 150,
+    });
+
+    const answer = gptResponse.choices[0]?.message.content;
+    res.status(200).json({ answer });
+  } catch (error) {
+    res.status(500).send("Error in processing the request.");
+  }
 };
