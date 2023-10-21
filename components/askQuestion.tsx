@@ -24,12 +24,13 @@ const AskQuestion: React.FC = () => {
     setQuestion(event.target.value);
   };
 
-  const handleSportChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedSport(event.target.value);
+  const handleSportChange = (value: string) => {
+    setSelectedSport(value);
   };
 
   const handleSubmit = async () => {
     setIsLoading(true);
+
     const encodedQuestion = encodeURIComponent(question); // Encode the question to ensure it's URL-safe
     const response = await fetch(
       `/api/getAnswer?sport=${selectedSport}&question=${encodedQuestion}`,
@@ -46,7 +47,7 @@ const AskQuestion: React.FC = () => {
   return (
     <div className="min-h-full flex flex-wrap">
       <div className="flex w-full  justify-center flex-wrap space-y-5 ">
-        <Select>
+        <Select onValueChange={handleSportChange}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Select a sport" />
           </SelectTrigger>
