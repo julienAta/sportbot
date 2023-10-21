@@ -53,7 +53,6 @@ const AskQuestion: React.FC = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Sports</SelectLabel>
               <SelectItem value="Tennis">Tennis</SelectItem>
               <SelectItem value="Football">Football</SelectItem>
               <SelectItem value="Rugby">Rugby</SelectItem>
@@ -73,9 +72,10 @@ const AskQuestion: React.FC = () => {
           Envoyer
         </Button>
       </div>
+
       {isLoading ? (
-        <div className="flex justify-center space-x-4 p-5 ">
-          <div className="space-y-2">
+        <div className="m-auto p-8">
+          <div className="space-y-2 ">
             <Skeleton className="h-4 w-[500px]" />
             <Skeleton className="h-4 w-[500px]" />
             <Skeleton className="h-4 w-[500px]" />
